@@ -16,14 +16,14 @@ https://go.microsoft.com/fwlink/?linkid=2353623
 
 -----------------
 
-# Add Role: Cognitive Services Contributor
+# Add Custom Role || Follow step by step 
 
 ## Step 1: Authenticate PowerShell
 ```powershell
 Connect-AzAccount -UseDeviceAuthentication
 ```
 
-## Step 2: Define the Custom Role (Inline / Flattened Format)
+## Step 2: Define the Custom Role || find the subscription id and update in given code [click here](https://learn.microsoft.com/en-us/azure/azure-portal/get-subscription-tenant-id)
 ```powershell
 $role = @{
     Name = "CognitiveServicesAgentManagerV2"
@@ -61,7 +61,7 @@ Get-AzADUser -UserPrincipalName "xxxxxxxx@LODSPRODMCA.onmicrosoft.com"
 Get-AzCognitiveServicesAccount -ResourceGroupName "ResourceGroup1"
 ```
 
-## Step 6: Assign the Role to the User || change the value of  <subscription-id> and <account-name> in below command
+## Step 6: Assign the Role to the User || change the value of Object Id , <subscription-id> and <account-name> in below command
 ```powershell
 New-AzRoleAssignment `
   -ObjectId "xxxxxxxxxxxxxxxxxxxxxxxx" `
