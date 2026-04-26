@@ -49,7 +49,7 @@ $role = @{
 New-AzRoleDefinition -Role $role
 ```
 
-## Step 4: Look Up the User by UPN (Email Address)
+## Step 4: Look Up the User ID by UPN (Replace your azure login user name here xxxxxxxx@LODSPRODMCA.onmicrosoft.com from resource tab)
 > Use the `Id` value from the output as the ObjectId
 ```powershell
 Get-AzADUser -UserPrincipalName "xxxxxxxx@LODSPRODMCA.onmicrosoft.com"
