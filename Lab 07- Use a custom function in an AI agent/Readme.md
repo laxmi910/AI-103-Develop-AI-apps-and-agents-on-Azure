@@ -26,7 +26,7 @@ Connect-AzAccount -UseDeviceAuthentication
 ## Step 2: Define the Custom Role (Inline / Flattened Format)
 ```powershell
 $role = @{
-    Name = "CognitiveServicesAgentManager"
+    Name = "CognitiveServicesAgentManagerV2"
     Id = (New-Guid).Guid
     IsCustom = $true
     Description = "Custom role to allow full management of AIServices agents in Cognitive Services."
@@ -56,7 +56,7 @@ Get-AzADUser -UserPrincipalName "xxxxxxxx@LODSPRODMCA.onmicrosoft.com"
 ```
 
 ## Step 5: Get the Cognitive Services Account Name
-> Look at the `Name` column in the output — this is your account name
+> Look at the `account name` column in the output — this is your account name
 ```powershell
 Get-AzCognitiveServicesAccount -ResourceGroupName "ResourceGroup1"
 ```
@@ -65,7 +65,7 @@ Get-AzCognitiveServicesAccount -ResourceGroupName "ResourceGroup1"
 ```powershell
 New-AzRoleAssignment `
   -ObjectId "xxxxxxxxxxxxxxxxxxxxxxxx" `
-  -RoleDefinitionName "CognitiveServicesAgentManager" `
+  -RoleDefinitionName "CognitiveServicesAgentManagerV2" `
   -Scope "/subscriptions/<subscription-id>/resourceGroups/ResourceGroup1/providers/Microsoft.CognitiveServices/accounts/<account-name>"
 ```
 
