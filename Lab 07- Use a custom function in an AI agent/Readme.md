@@ -16,11 +16,15 @@ https://go.microsoft.com/fwlink/?linkid=2353623
 
 -----------------
 
-add : Cognitive Services Contributor
-#Step1 : Authenticate powershell
-Connect-AzAccount -UseDeviceAuthentication
+# Add Role: Cognitive Services Contributor
 
-#Step 2 : Define the custom role inline (flattened format)
+## Step 1: Authenticate PowerShell
+```powershell
+Connect-AzAccount -UseDeviceAuthentication
+```
+
+## Step 2: Define the Custom Role (Inline / Flattened Format)
+```powershell
 $role = @{
     Name = "CognitiveServicesAgentManager"
     Id = (New-Guid).Guid
@@ -35,28 +39,35 @@ $role = @{
     )
     NotDataActions = @()
     AssignableScopes = @(
-        "/subscriptions/<Subscription -id>"
+        "/subscriptions/<Subscription-id>"
     )
 }
+```
 
-#Step 3 :  Create the role
+## Step 3: Create the Role
+```powershell
 New-AzRoleDefinition -Role $role
+```
 
-#Step 4 :  Look up the user by UPN (email address) , for object id
-# Use the "id" column value for object id
+## Step 4: Look Up the User by UPN (Email Address)
+> Use the `Id` value from the output as the ObjectId
+```powershell
 Get-AzADUser -UserPrincipalName "xxxxxxxx@LODSPRODMCA.onmicrosoft.com"
+```
 
+## Step 5: Get the Cognitive Services Account Name
+> Look at the `Name` column in the output — this is your account name
+```powershell
+Get-AzCognitiveServicesAccount -ResourceGroupName "ResourceGroup1"
+```
 
-
-#Step 4 :Get the Account name : Look at the "Name" column in the output — that’s the "account name" you need.
-Get-AzCognitiveServicesAccount -ResourceGroupName ResourceGroup1
-
-# Assign the role to your user
+## Step 6: Assign the Role to the User || change the value of  <subscription-id> and <account-name> in below command
+```powershell
 New-AzRoleAssignment `
-  -ObjectId xxxxxxxxxxxxxxxxxxxxxxxx `
+  -ObjectId "xxxxxxxxxxxxxxxxxxxxxxxx" `
   -RoleDefinitionName "CognitiveServicesAgentManager" `
-  -Scope "/subscriptions/<subscription-id>/resourceGroups/<your-resource-group>/providers/Microsoft.CognitiveServices/accounts/<account-name>"
-
+  -Scope "/subscriptions/<subscription-id>/resourceGroups/ResourceGroup1/providers/Microsoft.CognitiveServices/accounts/<account-name>"
+```
 
 
 
