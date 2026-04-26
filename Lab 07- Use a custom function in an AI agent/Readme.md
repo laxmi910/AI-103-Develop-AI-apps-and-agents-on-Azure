@@ -62,7 +62,7 @@ Get-AzCognitiveServicesAccount -ResourceGroupName "ResourceGroup1"
 ```
 
 ## Step 6: Assign the Role to the User 
-## (change the value of Object Id , <subscription-id> and <account-name> in below command)
+## (change the value of Object Id, <subscription-id> and <account-name> in below command)
 ```powershell
 New-AzRoleAssignment `
   -ObjectId "xxxxxxxxxxxxxxxxxxxxxxxx" `
