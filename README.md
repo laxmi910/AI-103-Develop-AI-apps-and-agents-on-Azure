@@ -17,5 +17,5 @@ python -m venv labenv
 Run the following command:
 
 ``` bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
