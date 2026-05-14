@@ -46,7 +46,6 @@ async def process_expenses_data(prompt, expenses_data):
         ) as agent,
     ):
 
-
         # Use the agent to process the expenses data    
         # Use the agent to process the expenses data
         try:
@@ -65,12 +64,12 @@ async def process_expenses_data(prompt, expenses_data):
 # Create a tool function for the email functionality
 @tool(approval_mode="never_require")
 def submit_claim(
-    to: Annotated[str, Field(description="Who to send the email to")],
-    subject: Annotated[str, Field(description="The subject of the email.")],
-    body: Annotated[str, Field(description="The text body of the email.")]):
-        print("\nTo:", to)
-        print("Subject:", subject)
-        print(body, "\n")
+   to: Annotated[str, Field(description="Who to send the email to")],
+   subject: Annotated[str, Field(description="The subject of the email.")],
+   body: Annotated[str, Field(description="The text body of the email.")]):
+       print("\nTo:", to)
+       print("Subject:", subject)
+       print(body, "\n")
 
 
 if __name__ == "__main__":
