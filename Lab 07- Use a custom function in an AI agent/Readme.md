@@ -1,75 +1,140 @@
-# Exercise
+# Astronomy Observation Assistant
 
-## Build an agent with custom tools
+## Use Case Story
 
-In this exercise, you’ll:
+### Scenario: Mr. Sam Plans an Astronomy Observation Session
 
-- Create a function for the agent to use  
-- Define the function tools  
-- Create the agent that uses the function tools  
-- Send a message to the agent and process the response  
-- Process function calls and display the agent’s response  
+- 👨‍🚀 **Mr. Sam** is an amateur astronomy enthusiast who wants to observe an upcoming celestial event using a telescope.
+- 🔭 Instead of searching through astronomy websites and event calendars, he asks the Astronomy Assistant for help.
+- 🌠 The assistant checks which astronomical event is coming up next and is visible from Sam’s region.
+- 💰 After choosing an event, Sam wants to know the cost of booking a telescope.
+- 📋 Once Sam confirms the observation details, the assistant prepares a professional observation report.
+- ⏱️ This saves Sam time by avoiding manual research, calculations, and paperwork.
+- ✅ Mr. Sam can quickly plan and organize his astronomy observation session with all the required information in one place.
 
-Start the exercise at:  
-https://go.microsoft.com/fwlink/?linkid=2353623
+---
 
+# Code Development Overview
 
------------------
+## Overall Purpose
 
-# Add Custom Role || Follow step by step 
+- Creates an Astronomy Observation Assistant using Azure AI Agents.
+- Helps users find astronomical events, calculate telescope costs, and generate observation reports.
 
-## Step 1: Authenticate PowerShell
-```powershell
-Connect-AzAccount -UseDeviceAuthentication
+## Agent Workflow
+
+### 1. Startup Process
+
+1. Loads environment configuration.
+2. Connects to Azure AI Project and OpenAI services.
+3. Creates a temporary astronomy agent.
+
+### 2. Agent Tools
+
+#### Tool 1: Next Visible Event
+
+**Purpose:** Find the next astronomical event visible from a selected region.
+
+**Inputs**
+- Location
+
+**Outputs**
+- Event name
+- Event type
+- Event date
+- Visibility regions
+
+#### Tool 2: Observation Cost Calculator
+
+**Purpose:** Calculate telescope rental costs.
+
+**Inputs**
+- Telescope tier
+- Observation hours
+- Priority level
+
+**Formula**
+```text
+Base Cost = Hourly Rate × Hours
+Total Cost = Base Cost × Priority Multiplier
 ```
 
-## Step 2: Define the Custom Role || find the subscription id and update in given code [click here](https://learn.microsoft.com/en-us/azure/azure-portal/get-subscription-tenant-id)
-```powershell
-$role = @{
-    Name = "CognitiveServicesAgentManagerV2"
-    Id = (New-Guid).Guid
-    IsCustom = $true
-    Description = "Custom role to allow full management of AIServices agents in Cognitive Services."
-    Actions = @()
-    NotActions = @()
-    DataActions = @(
-        "Microsoft.CognitiveServices/accounts/AIServices/agents/read",
-        "Microsoft.CognitiveServices/accounts/AIServices/agents/write",
-        "Microsoft.CognitiveServices/accounts/AIServices/agents/delete"
-    )
-    NotDataActions = @()
-    AssignableScopes = @(
-        "/subscriptions/<Subscription-id>"
-    )
-}
+#### Telescope Rates
+
+| Tier | Rate/hr |
+|------|----------|
+| Standard | $50 |
+| Advanced | $120 |
+| Premium | $300 |
+
+#### Priority Multipliers
+
+| Priority | Multiplier |
+|----------|------------|
+| Low | 1.00 |
+| Normal | 1.25 |
+| High | 1.75 |
+| Urgent | 2.50 |
+
+#### Tool 3: Observation Report Generator
+
+**Purpose:** Generate a detailed observation report.
+
+**Inputs**
+- Event name
+- Location
+- Telescope tier
+- Hours
+- Priority
+- Observer name
+
+## Supported Astronomical Events
+
+- Quadrantids Meteor Shower
+- Annular Solar Eclipse
+- Total Lunar Eclipse
+- Lyrids Meteor Shower
+- Jupiter–Venus Conjunction
+- Saturn–Mars Conjunction
+- Partial Solar Eclipse
+- Perseids Meteor Shower
+- Geminids Meteor Shower
+
+## Architecture Overview
+
+```text
+User
+ ↓
+Azure AI Agent
+ ↓
+Chooses Tool
+ ↓
+Business Logic
+ ↓
+Reads Event & Pricing Data
+ ↓
+Returns Result
+ ↓
+Agent Generates Response
+ ↓
+User
 ```
 
-## Step 3: Create the Role
-```powershell
-New-AzRoleDefinition -Role $role
-```
+## Strengths
 
-## Step 4: Look Up the User ID by UPN (Replace your azure login user name here xxxxxxxx@LODSPRODMCA.onmicrosoft.com from resource tab)
-> Use the `Id` value from the output as the ObjectId
-```powershell
-Get-AzADUser -UserPrincipalName "xxxxxxxx@LODSPRODMCA.onmicrosoft.com"
-```
+- Clear separation between agent and tools
+- Input validation
+- Multi-step tool orchestration
+- Easy extensibility
 
-## Step 5: Get the Cognitive Services Account Name
-> Look at the `account name` column in the output — this is your account name
-```powershell
-Get-AzCognitiveServicesAccount -ResourceGroupName "ResourceGroup1"
-```
+## Limitations
 
-## Step 6: Assign the Role to the User
+- Static event data
+- Limited location support
+- Text-based reports
+- No database persistence
+- Agent recreated on each run
 
-> Replace `ObjectId`, `<subscription-id>`, and `<account-name>` with your actual values.
+## Summary
 
-```powershell
-New-AzRoleAssignment `
-  -ObjectId "xxxxxxxxxxxxxxxxxxxxxxxx" `
-  -RoleDefinitionName "CognitiveServicesAgentManagerV2" `
-  -Scope "/subscriptions/<subscription-id>/resourceGroups/ResourceGroup1/providers/Microsoft.CognitiveServices/accounts/<account-name>"
-
-
-
+The Astronomy Observation Assistant is a tool-calling AI agent that discovers celestial events, calculates telescope booking costs, and generates observation reports.
